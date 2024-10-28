@@ -1,0 +1,56 @@
+<!-- feature = ['Age', 'Gender', 'Tenure', 'Usage Frequency', 'Support Calls',
+       'Payment Delay', 'Contract Length', 'Total Spend', 'Last Interaction']
+data = [30.0,'Female',39.0,14.0,5.0,18.0,'Annual',932.0,17.0]
+
+res = dict(map(lambda i,j : (i,[j]) , feature,data))
+print(res) -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict</title>
+</head>
+
+<body>
+    <h1>Lets Predict</h1>
+    <form action="/predict" method="POST">
+        <h3>Enter your age:</h3>
+        <input type="number" name='age'>
+        <h3>Select Gender:</h3>
+        <select name="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        <h3>Enter Tenure:</h3>
+        <input type="number" name='tenure'>
+        <h3>Usage Frequency:</h3>
+        <input type="number" name='usage_frequency'>
+        <h3>Support Calls:</h3>
+        <input type="number" name='support_calls'>
+        <h3>Payment Delay:</h3>
+        <input type="number" name='payment_delay'>
+        <h3>Contract Length:</h3>
+        <select name="contract_length">
+            <option value="Annual">Annual</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Monthly">Monthly</option>
+        </select>
+        <h3>Total Spend:</h3>
+        <input type="number" name='total_spend'>
+        <h3>Last Interaction:</h3>
+        <input type="number" name='last_interaction'>
+
+        <button type="submit">Predict</button>
+
+        {% if data : %}
+     <h4 style="color: {{data[1]}}">
+        {{data[0]}}
+    </h4>  
+    {% endif %} 
+    </form>
+</body>
+
+</html>

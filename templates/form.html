@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Prediction</title>
+
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Body Styling */
+        body {
+            background: linear-gradient(135deg, #74b9ff, #a29bfe);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Form Container */
+        .form-container {
+            background-color: #fff;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2d3436;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            color: #636e72;
+            font-size: 14px;
+        }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #dfe6e9;
+            border-radius: 8px;
+            background-color: #f1f2f6;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: #0984e3;
+            background-color: #fff;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background-color: #0984e3;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #74b9ff;
+            transform: translateY(-2px);
+        }
+
+        .prediction-result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .flash {
+            background-color: #ffeaa7;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            text-align: center;
+            color: #d35400;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <h1>Customer Churn Prediction</h1>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div>
+                    {% for category, message in messages %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Prediction Form -->
+        <form action="/predict" method="POST">
+            <div class="form-group">
+                <label for="age">Enter your age:</label>
+                <input type="number" id="age" name="age" min="0" required placeholder="Enter your age">
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Select Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="tenure">Enter Tenure (in months):</label>
+                <input type="number" id="tenure" name="tenure" min="0" required placeholder="e.g., 24">
+            </div>
+
+            <div class="form-group">
+                <label for="usage_frequency">Usage Frequency (times per month):</label>
+                <input type="number" id="usage_frequency" name="usage_frequency" min="0" required placeholder="e.g., 5">
+            </div>
+
+            <div class="form-group">
+                <label for="support_calls">Number of Support Calls:</label>
+                <input type="number" id="support_calls" name="support_calls" min="0" required placeholder="e.g., 2">
+            </div>
+
+            <div class="form-group">
+                <label for="payment_delay">Payment Delay (days):</label>
+                <input type="number" id="payment_delay" name="payment_delay" min="0" required placeholder="e.g., 10">
+            </div>
+
+            <div class="form-group">
+                <label for="contract_length">Contract Length:</label>
+                <select id="contract_length" name="contract_length" required>
+                    <option value="Annual">Annual</option>
+                    <option value="Quarterly">Quarterly</option>
+                    <option value="Monthly">Monthly</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="total_spend">Total Spend (in USD):</label>
+                <input type="number" id="total_spend" name="total_spend" min="0" step="0.01" required placeholder="e.g., 1200.50">
+            </div>
+
+            <div class="form-group">
+                <label for="last_interaction">Last Interaction (days ago):</label>
+                <input type="number" id="last_interaction" name="last_interaction" min="0" required placeholder="e.g., 30">
+            </div>
+
+            <button type="submit">Predict</button>
+
+            {% if data %}
+            <div class="prediction-result" style="color: {{ data[1] }};">
+                {{ data[0] }}
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</body>
+
+</html>
